@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <title>用户登陆</title>
+    <!--样式-->
+    <link rel="stylesheet" type="text/css" href="statics/easyui/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="statics/easyui/themes/icon.css">
+
+    <!--插件-->
+    <script type="text/javascript" src="statics/jquery.min.js"></script>
+    <script type="text/javascript" src="statics/jquery.extend.js"></script>
+    <script type="text/javascript" src="statics/easyui/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="statics/easyui/locale/easyui-lang-zh_CN.js"></script>
+
+
+    <script>
+        $(function () {
+            //初始化登陆Dialog
+            $("#user_login_dialog").dialog({
+                title: '用户登陆',
+                iconCls: 'icon-logo',
+                width: 400,
+                top: 120,
+                closed: false,
+                draggable: false,
+                closable: false,
+                cache: false,
+                href: 'commons/login/login.html',
+                toolbar: [{
+                    text: '用户注册',
+                    handler: function () {
+                        $("#user_register_dialog").dialog("open")
+                        $("#user_login_dialog").dialog("close")
+                    }
+                }],
+                buttons: [{
+                    text: '登陆',
+                    iconCls: "icon-ok",
+                    handler: function () {
+                        $("#user_login_form").form("submit", {
+                            url: '/formUserManager/userLogin',
+                            onSubmit: function () {
+                                return $("#user_login_form").form("validate")
+                            },
+                            success: function (data) {
+                                if (!data) {
+                                    $.messager.show({
+                                        title: '登陆成功',
+                                        msg: '消息将在5秒后关闭。',
+                                        timeout: 5000,
+                                        showType: 'slide'
+                                    });
+                                    window.location.href = "/welcome.html"
+                                } else {
+                                    var message = JSON.parse(data);
+                                    $.messager.show({
+                                        title: '登陆出错啦！',
+                                        msg: message.code + "\t" + message.message,
+                                        timeout: 5000,
+                                        showType: 'slide'
+                                    });
+                                }
+                            }
+                        })
+                    }
+                }, {
+                    text: '重置',
+                    iconCls: "icon-redo",
+                    handler: function () {
+                        $("#user_login_form").form("reset")
+                    }
+                }]
+            })
+            //初始化注册Diglog
+            $("#user_register_dialog").dialog({
+                title: '用户注册',
+                iconCls: 'icon-logo',
+                width: 400,
+                top: 120,
+                closed: true,
+                draggable: false,
+                closable: false,
+                cache: false,
+                href: 'commons/login/register.html',
+                toolbar: [{
+                    text: '用户登陆',
+                    handler: function () {
+                        $("#user_register_dialog").dialog("close")
+                        $("#user_login_dialog").dialog("open")
+                    }
+                }],
+                buttons: [{
+                    text: '注册',
+                    iconCls: "icon-ok",
+                    handler: function () {
+                        $("#user_reigster_form").form("submit", {
+                            url: '/formUserManager/registerUser',
+                            onSubmit: function () {
+                                return $("#user_reigster_form").form("validate")
+                            },
+                            success: function (data) {
+                                if (!data) {
+                                    $.messager.show({
+                                        title: '登陆成功',
+                                        msg: '消息将在5秒后关闭。',
+                                        timeout: 5000,
+                                        showType: 'slide'
+                                    });
+                                    window.location.href = "/welcome.html"
+                                } else {
+                                    var message = JSON.parse(data);
+                                    $.messager.show({
+                                        title: '登陆出错啦！',
+                                        msg: message.code + "\t" + message.message,
+                                        timeout: 5000,
+                                        showType: 'slide'
+                                    });
+                                }
+                            }
+                        })
+                    }
+                }, {
+                    text: '重置',
+                    iconCls: "icon-redo",
+                    handler: function () {
+                        $("#user_reigster_form").form("reset")
+                    }
+                }]
+            })
+        })
+    </script>
+</head>
+<body>
+<div id="user_login_dialog"></div>
+<div id="user_register_dialog"></div>
+</body>

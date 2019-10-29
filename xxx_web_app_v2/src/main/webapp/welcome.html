@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <title>用户首页</title>
+    <!--样式-->
+    <link rel="stylesheet" type="text/css" href="statics/easyui/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="statics/easyui/themes/icon.css">
+
+    <!--插件-->
+    <script type="text/javascript" src="statics/jquery.min.js"></script>
+    <script type="text/javascript" src="statics/jquery.extend.js"></script>
+    <script type="text/javascript" src="statics/jquery.My.js"></script>
+    <script type="text/javascript" src="statics/easyui/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="statics/easyui/locale/easyui-lang-zh_CN.js"></script>
+
+
+</head>
+<body class="easyui-layout">
+<div data-options="region:'north',split:false,href:'commons/head.html'" style="height:60px;"></div>
+<div data-options="region:'south',split:false,href:'commons/bottom.html'" style="height:30px;"></div>
+<div data-options="region:'west',title:'操作栏',split:false,href:'commons/left.html'" style="width:120px;"></div>
+<div data-options="region:'center',border:false" style="background:#eee;">
+    <div id="welcome_oparator_tabs" class="easyui-tabs" data-options="fit:true,narrow:true">
+
+    </div>
+</div>
+</body>

@@ -1,0 +1,44 @@
+<script>
+    $(function () {
+        $("#user_reigster_sex_swbtn").switchbutton({
+            onText:'男',
+            offText:'女',
+            onChange:function (checked) {
+                $("#user_reigster_sex").val(checked)
+            }
+        })
+        $(".verifyCode").verifyCode({
+            url:"/kaptcha/defaultKaptcha"
+        })
+    })
+</script>
+<form id="user_reigster_form" method="post" enctype="multipart/form-data">
+
+    <div style="padding-left: 10%;padding-right: 10%;margin-top: 15px">
+        <input name="name" class="easyui-textbox" data-options="prompt:'用户名',iconCls:'icon-man',required:true" style="width:100%;height: 30px;" >
+    </div>
+    <div style="padding-left: 10%;padding-right: 10%;margin-top: 15px">
+        <input name="password" class="easyui-textbox" data-options="type:'password',iconCls:'icon-lock',required:true" style="width:100%;height: 30px;" >
+    </div>
+    <div style="padding-left: 10%;padding-right: 10%;margin-top: 15px">
+        <input name="email" class="easyui-textbox" data-options="iconCls:'icon-email',required:true" style="width:100%;height: 30px;" >
+    </div>
+    <div style="padding-left: 10%;padding-right: 10%;margin-top: 15px">
+        <input name="birthDay" class="easyui-datebox" data-options="required:true,editable:false" style="width:100%;height: 30px;" >
+    </div>
+    <div style="padding-left: 10%;padding-right: 10%;margin-top: 15px">
+        <input id="user_reigster_sex_swbtn" class="easyui-switchbutton">
+        <input id="user_reigster_sex" name="sex" value="false" style="display: none" >
+    </div>
+    <div style="padding-left: 10%;padding-right: 10%;margin-top: 15px">
+        <input name="multipartFile" class="easyui-filebox"  style="width:100%;height: 30px;" >
+    </div>
+    <div style="padding-left: 10%;padding-right: 10%;margin-top: 15px;margin-bottom: 65px">
+        <div style="float: left;width: 50%">
+            <img class="verifyCode" height="30" width="100%" alt="图片验证码" src="/kaptcha/defaultKaptcha"/>
+        </div>
+        <div style="float: left;width: 50%;">
+            <input name="verifyCode" class="easyui-textbox" data-options="prompt:'验证码',required:true" style="width:100%;height: 30px;" >
+        </div>
+    </div>
+</form>
