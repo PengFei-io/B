@@ -1,0 +1,8 @@
+com\baidu\test\MyTest.class
+com\baidu\App.class
+com\baidu\controller\UserController.class
+com\baidu\service\IUserService.class
+com\baidu\dao\UserDAO.class
+com\baidu\entity\User.class
+com\baidu\service\impl\IUserServiceImpl.class
+com\baidu\util\MyUtil.class

@@ -1,0 +1,5 @@
+tcwl\dao\EmailMapper.class
+tcwl\service\MailService.class
+tcwl\controller\EmailController.class
+tcwl\MailDemoApplication.class
+tcwl\entites\EmailInfo.class

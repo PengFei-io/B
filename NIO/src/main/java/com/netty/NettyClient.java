@@ -6,6 +6,8 @@ import io.netty.channel.ChannelInitializer;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
+import io.netty.handler.codec.protobuf.ProtobufEncoder;
+
 
 /**
  * 客户端
@@ -24,13 +26,14 @@ public class NettyClient {
                 .handler(new ChannelInitializer<SocketChannel>() {
                     @Override
                     public void initChannel(SocketChannel ch) throws Exception {
+                        ch.pipeline().addLast("encoder",new ProtobufEncoder());
                         //在Pipeline中加入自定义客户端事件
                         ch.pipeline().addLast(new NettyClientHandler());
                     }
                 });
         System.out.println("客户端准备就绪。。。。。。。。");
         //启动客户端，连接服务器
-        ChannelFuture future = b.connect("localhost", 9898).sync();
+        ChannelFuture future = b.connect("localhost", 8429).sync();
         //关闭连接
         future.channel().closeFuture().sync();
     }

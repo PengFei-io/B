@@ -1,5 +1,6 @@
 package com.netty;
 
+import com.code.BookMessage;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerContext;
@@ -17,8 +18,9 @@ public class NettyClientHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         System.out.println("Client:" + ctx);
-            String s = "请您输入。。。。。。。。。。。";
-            ctx.writeAndFlush(Unpooled.copiedBuffer(s, Charset.forName("GBK")));
+        BookMessage.Book book = BookMessage.Book.newBuilder().setId(1).setName("java从入门到放弃").build();
+
+     ctx.writeAndFlush(book);
     }
 
     //读取服务器发来的数据

@@ -1,0 +1,15 @@
+server:
+  port: 7777
+  servlet:
+    context-path: /app
+spring:
+  servlet:
+    multipart:
+      location: D:/uploadfiles
+      max-file-size: 1MB
+      enabled: true
+fdfs:
+  tracker-list: 192.168.134.144:22122,192.168.134.145:22122,192.168.134.146:22122
+  thumb-image:
+    height: 80
+    width: 80

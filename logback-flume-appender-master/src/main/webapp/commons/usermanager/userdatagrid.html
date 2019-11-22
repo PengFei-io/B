@@ -1,0 +1,138 @@
+<script>
+    $(function () {
+        //初始化 用户表格
+        $("#usermanager_dg").datagrid({
+            url:'/app/userApp/queryUserByPage',
+            method:'get',
+            fit:true,
+            striped:true,
+            singleSelect:true,
+            fitColumns:true,
+            toolbar:"#userdg_tools",
+            columns:[[
+                {field:'id',title:'用户ID',width:2},
+                {
+                    field:'name',
+                    title:'用户名',
+                    width:5,
+                    align:"center"
+                },
+                {
+                    field:'sex',
+                    title:'性别',
+                    width:2,
+                    align:'center',
+                    formatter: function(value,row,index){
+                        if(value) {
+                            return "男"
+                        } else{
+                           return "女"
+                        }
+                    }
+                },
+                {field:'email',title:'邮箱',width:10,align:'center'},
+                {field:'photo',title:'头像',width:10,align:'center'}
+            ]],
+            pagination:true,
+            pageList:[5,10,20,50,100],
+            pageSize:10
+        })
+        //修改事件
+        $("#usermanager_dg_update").click(function () {
+           var row= $("#usermanager_dg").datagrid("getSelected")
+           if(!row){
+               $.messager.alert("选择警告","您至少选择一行！")
+           }else{
+               console.log(row)
+               //打开dialog，加载表单，进行回填
+               $("#usermanager_edit_dialog").dialog("open")
+               $("#usermanager_edit_dialog").data("row",row)//数据绑定
+               //...
+           }
+        })
+        //搜索事件
+        $("#usermanager_dg_search").searchbox({
+            searcher:function(value,name){
+                $("#usermanager_dg").datagrid("load",{
+                    column:name,
+                    value:value
+                })
+            }
+        })
+        //初始化修改dialog
+        $("#usermanager_edit_dialog").dialog({
+            title:'用户修改',
+            iconCls:'icon-logo',
+            width:400,
+            top:80,
+            modal:true,
+            closed:true,
+            cache:false,
+            href:'commons/usermanager/edit.html',
+            onLoad:function(){ //dialog加载完表单
+                var row=$("#usermanager_edit_dialog").data("row")//获取绑定的数据
+                $("#usermanager_update_form").form("load",row);
+                if(row.sex){
+                    $("#usermanager_sex_swbtn").switchbutton("check")
+                }else{
+                    $("#usermanager_sex_swbtn").switchbutton("uncheck")
+                }
+            },
+            buttons:[{
+                text:'修改',
+                iconCls:"icon-ok",
+                handler:function(){
+                    $("#usermanager_update_form").form("submit",{
+                        url:'/app/userApp/updateUser',
+                        onSubmit: function(){
+                            return $("#usermanager_update_form").form("validate")
+                        },
+                        success:function (data) {
+                            if(!data){
+                                $("#usermanager_edit_dialog").dialog("close")
+                                $.messager.show({
+                                    title:'登陆成功',
+                                    msg:'消息将在5秒后关闭。',
+                                    timeout:5000,
+                                    showType:'slide'
+                                });
+                                setTimeout(function () {
+                                    $("#usermanager_dg").datagrid("reload")
+                                },5000)
+                            }else{
+                                var message = JSON.parse(data);
+                                $.messager.show({
+                                    title:'登陆出错啦！',
+                                    msg:message.code+"\t"+message.message,
+                                    timeout:5000,
+                                    showType:'slide'
+                                });
+                            }
+                        }
+                    })
+                }
+            },{
+                text:'重置',
+                iconCls:"icon-redo",
+                handler:function(){
+                    $("#usermanager_update_form").form("reset")
+                }
+            }]
+        })
+    })
+</script>
+<!--数据表格-->
+<table id="usermanager_dg" ></table>
+<!--tools-->
+<div id="userdg_tools">
+    <a id="usermanager_dg_update"  class="easyui-linkbutton" data-options="iconCls:'icon-edit',plain:true">修改</a>
+    <a id="usermanager_dg_add" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true">添加</a>
+    <a id="usermanager_dg_delete"  class="easyui-linkbutton" data-options="iconCls:'icon-remove',plain:true">删除</a>
+    <input id="usermanager_dg_search"  class="easyui-searchbox" style="width:30%"  data-options="prompt:'Please Input Value',menu:'#mm'"></input>
+
+    <div id="mm" style="width:120px">
+        <div data-options="name:'name',iconCls:'icon-man'">用户名</div>
+        <div data-options="name:'email',iconCls:'icon-email'">邮&nbsp;箱</div>
+    </div>
+</div>
+<div id="usermanager_edit_dialog"></div>

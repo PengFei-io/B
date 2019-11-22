@@ -1,14 +1,12 @@
 package com.tcwl.services;
 
-import org.testng.annotations.Test;
-
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 
 public class TestNIO {
-    @Test
+    // @Test
     public void method01() throws Exception {
         long millis1 = System.currentTimeMillis();
         //读进来
@@ -23,7 +21,7 @@ public class TestNIO {
         channel.close();
         channel2.close();
         long millis2 = System.currentTimeMillis();
-        System.out.println((millis2-millis1));
+        System.out.println((millis2 - millis1));
 
     }
 }

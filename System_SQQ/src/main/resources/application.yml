@@ -1,0 +1,17 @@
+server:
+  port: 8888
+  servlet:
+    context-path: /root
+spring:
+  datasource:
+    password: root
+    url: jdbc:mysql://localhost:3306/novel
+    driver-class-name: com.mysql.jdbc.Driver
+    username: root
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+mybatis:
+  mapper-locations: classpath:mapper/*Mapper.xml
+  type-aliases-package: com.io.entities
+  executor-type: batch

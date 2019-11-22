@@ -1,5 +1,6 @@
 package com.netty;
 
+import com.code.BookMessage;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
@@ -7,18 +8,29 @@ import io.netty.channel.ChannelOption;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import io.netty.handler.codec.protobuf.ProtobufDecoder;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  * 服务器
  */
+@Component
 public class NettyServer {
-    public static void main(String[] args) throws Exception {
+    @Autowired
+    NettyServerHandler nettyServerHandler;
+    ChannelFuture cf = null;
+    NioEventLoopGroup bossGroup = null;
+    NioEventLoopGroup workGroup = null;
+    ServerBootstrap serverBootstrap = null;
+
+    public void start(int port) {
         //1.创建一个线程组,接收客户端连接
-        NioEventLoopGroup bossGroup = new NioEventLoopGroup();
+        bossGroup = new NioEventLoopGroup();
         //2.创建一个线程组，用于处理网络操作
-        NioEventLoopGroup workGroup = new NioEventLoopGroup();
+        workGroup = new NioEventLoopGroup();
         //3.创建服务器端的启动助手，配置参数
-        ServerBootstrap serverBootstrap = new ServerBootstrap();
+        serverBootstrap = new ServerBootstrap();
         //设置2个线程组
         serverBootstrap.group(bossGroup, workGroup)
                 //使用NioServerSocketChannel作为服务器端通道的实现
@@ -32,15 +44,34 @@ public class NettyServer {
                     //往Pipeline链中添加自定义的handler类
                     @Override
                     public void initChannel(SocketChannel sc) throws Exception {
-                        sc.pipeline().addLast(new NettyServerHandler());
+                        sc.pipeline().addLast("decoder", new ProtobufDecoder(BookMessage.Book.getDefaultInstance()));
+                        sc.pipeline().addLast(nettyServerHandler);
                     }
                 });
-        ChannelFuture cf = serverBootstrap.bind(9898).sync();
-        System.out.println("...........Server is starting........");
-        //关闭通道，关闭线程组
-        cf.channel().closeFuture().sync();//异步
-        bossGroup.shutdownGracefully();
-        workGroup.shutdownGracefully();
 
+        try {
+            cf = serverBootstrap.bind(port).sync();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.out.println("...........Server is starting........");
+    }
+
+    public void close() {
+        //关闭通道，关闭线程组
+        try {
+            if (cf != null) {
+                cf.channel().closeFuture().sync();//异步
+            }
+            if (bossGroup != null) {
+
+                bossGroup.shutdownGracefully();
+            }
+            if (workGroup != null) {
+                workGroup.shutdownGracefully();
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }

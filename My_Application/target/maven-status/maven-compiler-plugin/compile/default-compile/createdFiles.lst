@@ -1,0 +1,10 @@
+com\io\exceptions\VerifyCodeException.class
+com\io\controller\WelcomeController.class
+com\io\exceptions\UserNameAndPasswordException.class
+com\io\UserWebMvcConfigurer.class
+com\io\WebAppApplication.class
+com\io\entities\ErrorMessage.class
+com\io\entities\User.class
+com\io\controller\UserExceptionHandler.class
+com\io\controller\KaptchaController.class
+com\io\interceptors\UserForceLoginInterceptor.class

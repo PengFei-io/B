@@ -9,16 +9,16 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class UserMvcConfiogure implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new ForceUserLogin())
-                .addPathPatterns("/**")
-                .excludePathPatterns(
-                        "/index.html",
-                        "/commons/**",
-                        "/statics/**",
-                        "/formUserManager/userLogin",
-                        "/formUserManager/registerUser",
-                        "/kaptcha/**",
-                        "/validate/**"
-                );
+//        registry.addInterceptor(new ForceUserLogin())
+//                .addPathPatterns("/**")
+//                .excludePathPatterns(
+//                        "/index.html",
+//                        "/commons/**",
+//                        "/statics/**",
+//                        "/formUserManager/userLogin",
+//                        "/formUserManager/registerUser",
+//                        "/kaptcha/**",
+//                        "/validate/**"
+//                );
     }
 }

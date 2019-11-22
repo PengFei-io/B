@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context debug="0" docBase="hms" path="/aeds" reloadable="false" workDir="aeds">
+    <Resource
+         name="aeds_ds"
+         auth="Container"
+         type="javax.sql.DataSource"
+         maxActive="100"
+         maxIdle="30"
+         maxWait="10000"
+         username="root"
+         password="root"
+         driverClassName="com.mysql.jdbc.Driver"
+         url="jdbc:mysql://192.168.1.157:3306/aeds"/>
+</Context>

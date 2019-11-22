@@ -1,0 +1,11 @@
+com\baizhi\entities\ErrorMessage.class
+com\baizhi\WebAppApplication.class
+com\baizhi\interceptors\ForceUserLogin.class
+com\baizhi\UserMvcConfiogure.class
+com\baizhi\controller\UserController.class
+com\baizhi\entities\User.class
+com\baizhi\controller\KaptchaController.class
+com\baizhi\exceptions\UserExceptionHandller.class
+com\baizhi\controller\UserNameValidationController.class
+com\baizhi\exceptions\VerifyCodeException.class
+com\baizhi\exceptions\UserNameAndPasswordException.class

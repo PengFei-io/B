@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="tcwl.dao.EmailMapper">
+    <!--基础字段-->
+    <sql id="baseEmailInfo">
+        e_id AS eid,title,content,document,accepter,sender,send_time AS sendTime,
+        accept_time AS acceptTime,acc_company AS company,phoneNum,acc_Email AS accEmail,
+        send_Email AS sendEmail,look_status
+    </sql>
+    <!--插入动作，收件信息-->
+    <insert id="insertEmailInfo">
+        insert into m_email values(#{eid},#{title},#{content},#{document},
+        #{accepter},#{sender},#{sendTime},#{acceptTime},#{company},#{phoneNum},
+        #{accEmail},#{sendEmail},#{look_status})
+    </insert>
+    <!--收件列表，用于展示-->
+    <select id="queryAll" resultType="tcwl.entites.EmailInfo">
+        select <include refid="baseEmailInfo"></include> from m_email order by look_status asc, acceptTime desc limit
+        #{begin},#{count}
+    </select>
+
+    <!--收件列表，用于展示详情-->
+    <select id="queryById" resultType="tcwl.entites.EmailInfo">
+        select <include refid="baseEmailInfo"></include> from m_email where e_id = #{eid}
+    </select>
+    <!--删除-->
+    <select id="removeById">
+        delete from m_email where e_id = #{eid}
+    </select>
+    <select id="count" resultType="java.lang.Integer">
+        select count(*) from m_email
+    </select>
+    <update id="updateById">
+        update m_email set look_status = #{look_status} where e_id = #{eid}
+    </update>
+</mapper>

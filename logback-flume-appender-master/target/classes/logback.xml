@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="60 seconds" debug="false">
+    <appender name="flume" class="com.gilt.logback.flume.FlumeLogstashV1Appender">
+        <flumeAgents>
+            192.168.134.170:6666
+        </flumeAgents>
+        <flumeProperties>
+            connect-timeout=4000;
+            request-timeout=8000
+        </flumeProperties>
+        <batchSize>100</batchSize>
+        <reportingWindow>1000</reportingWindow>
+        <additionalAvroHeaders>
+            myHeader=myValue
+        </additionalAvroHeaders>
+        <application>TestAvro</application>
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <pattern>%d{HH:mm:ss.SSS} %-5level %logger{36} - \(%file:%line\) - %message%n%ex</pattern>
+        </layout>
+    </appender>
+
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>WARN</level>
+        </filter>
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} %-5level %logger{36} - \(%file:%line\) - %message%n%ex</pattern>
+        </encoder>
+    </appender>
+
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%p %c#%M %d{yyyy-MM-dd HH:mm:ss} %m%n</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        　　　　　　
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            　　　　　　　　　
+            <fileNamePattern>logs/userLoginFile-%d{yyyyMMdd}.log</fileNamePattern>
+            　　　　　　　　　
+            <maxHistory>30</maxHistory>
+            　　　　　　
+        </rollingPolicy>
+        　　　　　　
+        <encoder>
+            　　　　　　　　　
+            <pattern>%p %c#%M %d{yyyy-MM-dd HH:mm:ss} %m%n</pattern>
+            <charset>UTF-8</charset>
+            　　　　　　
+        </encoder>
+    </appender>
+
+    <!-- 控制台输出日志级别 -->
+    <root level="ERROR">
+        <appender-ref ref="STDOUT"/>
+    </root>
+
+    <logger name="com.baizhi.interceptors.UserForceLoginInterceptor" level="DEBUG" additivity="false">
+        <appender-ref ref="STDOUT"/>
+    </logger>
+
+    <logger name="com.baizhi.controller.UserController" level="DEBUG" additivity="false">
+        <appender-ref ref="STDOUT"/>
+    </logger>
+    <logger name="com.baizhi.controller.KaptchaController" level="DEBUG" additivity="false">
+        <appender-ref ref="STDOUT"/>
+    </logger>
+
+    <logger name="play" level="INFO"/>
+    <logger name="application" level="DEBUG"/>
+
+    <!-- Off these ones as they are annoying, and anyway we manage configuration ourselves -->
+    <logger name="com.avaje.ebean.config.PropertyMapLoader" level="OFF"/>
+    <logger name="com.avaje.ebeaninternal.server.core.XmlConfigLoader" level="OFF"/>
+    <logger name="com.avaje.ebeaninternal.server.lib.BackgroundThread" level="OFF"/>
+    <logger name="com.gargoylesoftware.htmlunit.javascript" level="OFF"/>
+
+    <root level="INFO">
+        <appender-ref ref="flume"/>
+        <appender-ref ref="console"/>
+    </root>
+</configuration>

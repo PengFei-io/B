@@ -1,0 +1,43 @@
+
+<script>
+    $(function () {
+        $(".easyui-linkbutton").click(function () {
+            addTabs($(this).text(),$(this).attr("target-url"))
+        })
+
+        function addTabs(name,url) {
+            if($('#welcome_oparator_tabs').tabs("exists",name)){
+                $('#welcome_oparator_tabs').tabs("select",name);
+            }else{
+                $('#welcome_oparator_tabs').tabs('add',{
+                    title:name,
+                    href:url,
+                    closable:true,
+                    fit:true,
+                    tools:[{
+                        iconCls:'icon-mini-refresh',
+                        handler:function() {
+                            $('#welcome_oparator_tabs').tabs("select", name);
+                            var tab = $('#welcome_oparator_tabs').tabs("getTab",name)
+                            tab.panel('refresh');
+                        }
+                    }]
+                });
+            }
+        }
+    })
+</script>
+
+<div class="easyui-accordion" data-options="fit:true,border:false">
+    <div title="用户管理" data-options="iconCls:'icon-man',selected:true" >
+        <a class="easyui-linkbutton" target-url="/app/commons/usermanager/userdatagrid.html" data-options="iconCls:'icon-edit',plain:true,iconAlign:'right'" style="width: 100%;height: 30px">用户管理</a>
+    </div>
+    <div title="系统统计" data-options="iconCls:'icon-logo',selected:true" >
+        <a class="easyui-linkbutton" data-options="plain:true,iconAlign:'right'" style="width: 100%;height: 30px">风险账户</a>
+        <a class="easyui-linkbutton" data-options="plain:true,iconAlign:'right'" style="width: 100%;height: 30px">用户分布</a>
+        <a class="easyui-linkbutton" data-options="plain:true,iconAlign:'right'" style="width: 100%;height: 30px">特殊关注</a>
+    </div>
+    <div title="其他">
+
+    </div>
+</div>
