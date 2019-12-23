@@ -130,7 +130,7 @@
 
     <div class="item"> 内容： <textarea type="text" name="content">${emailInfo.content}</textarea></div>
     <div class="item pr"> 附件： <a
-            href="${pageContext.servletContext.contextPath}/document/${emailInfo.document}">${emailInfo.document}</a><span
+            href="${pageContext.servletContext.contextPath}/email/downLoad?fileName=${emailInfo.document}">${emailInfo.document}</a><span
             class="mustbe">点击可下载附件</span></div>
 
     <div class="item">

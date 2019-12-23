@@ -117,9 +117,14 @@ public class EmailController {
      */
     @RequestMapping("/downLoad")
     public void downLoad(String fileName, HttpServletResponse response) throws IOException {
-        response.setHeader("content-disposition", "attachment;filename=" + URLEncoder.encode(fileName, "UTF-8"));
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("text/html;charset=UTF-8");
+        log.info("请求文件名为：{}", fileName);
+
+        response.setHeader("content-disposition", "attachment;filename=" +new String( fileName.getBytes(), "ISO8859-1" ) );
         //获取源文件的字节数组
         FileInputStream in = new FileInputStream("D://document/" + fileName);
+
         byte[] buffer = new byte[4096];
         ServletOutputStream os = response.getOutputStream();
         int bytesToRead;
